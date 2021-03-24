@@ -5,102 +5,61 @@ using UnityEngine.SceneManagement;
 
 public class uiScript : MonoBehaviour
 {
-    public GameObject board; //to alter size
+    //VARIABLES
+
+    public GameObject board; //to alter height
+
+    public GameObject sun; //change hour
+
+    public AudioSource source;
+
+    public AudioClip[] sfx; //Sound Effects
 
 
-    ////Music System
-    //bool MusicStatus;
-    //public AudioSource Source;
-    //public AudioClip[] clips;
+   
 
     // Start is called before the first frame update
     void Start()
     {
-        //StartMusic();
-
-        
+        source = GetComponent<AudioSource>();
+    
     }
 
-    void Update()
-    {
-        //if (!Source.isPlaying)
-        //{
-        //    ShuffleSongs();
-        //}
-    }
 
     // Buttons
 
     public void ResetGame()
     {
+        source.clip = sfx[0];
+        source.Play();
         SceneManager.LoadScene(0);
     }
 
     public void FinishGame()
     {
+        source.clip = sfx[0];
+        source.Play();
         Application.Quit();
     }
-
-    //public void ShuffleSongs()
-    //{
-    //    int newClip = Random.Range(0, clips.Length);
-    //    Source.clip = clips[newClip];
-    //    Source.Play();
-    //}
 
 
     // Sliders
 
-    public void ChangeBoardSize(float size)
+    public void ChangeBoardHeight(float height)
     {
-        //
+        source.clip = sfx[1];
+        source.Play();
+        board.transform.position = new Vector3(board.transform.position.x, height, board.transform.position.z);
     }
 
     public void ChangeTimeOfDay(float movement)
     {
-        //
+        source.clip = sfx[1];
+        source.Play();
+        movement += 10f;
+        sun.transform.Rotate(movement, 0, 0, Space.World);
     }
 
-
-    // Toggle
-
-    //public void Music()
-    //{
-    //    if (MusicStatus == true)
-    //    {
-    //        Source.Pause();
-    //        MusicStatus = false;
-    //    }
-    //    if (MusicStatus == false)
-    //    {
-    //        Source.Play();
-    //        MusicStatus = true;
-    //    }
-        
-    //}
-
-    // Others
-
-    //void StartMusic()
-    //{
-    //    Source = GetComponent<AudioSource>();
-    //    int randomClip = Random.Range(0, clips.Length);
-    //    Source.clip = clips[randomClip];
-    //    Source.Play();
-    //    MusicStatus = true;
-
-    //}
-
-    
-
-
-
-
-
-
-    
-
- 
 
  
 }

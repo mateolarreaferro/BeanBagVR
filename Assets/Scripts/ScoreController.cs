@@ -6,21 +6,24 @@ using TMPro;
 
 public class ScoreController : MonoBehaviour
 {
+    //VARIABLES 
 
-    public static ScoreController Instance;
-    public int currentScore;
+    public static ScoreController Instance; //Singleton
 
-    public TextMeshProUGUI scoreText;
+    public int currentScore; 
 
-    public CanvasGroup winScreen, loseScreen;
+    public TextMeshProUGUI scoreText; //Reference to UI Text
 
-    public GameObject board;
+    public CanvasGroup winScreen, loseScreen; //Canvas that will be displayed
+
+    public GameObject board; //Reference to object
 
     float offset = 1f;
 
-    bool ReadyFreddy, RotationStatus;
+    bool ReadyFreddy;
 
-    private void Awake()
+
+    private void Awake() //Singleton
     {
         if (Instance == null)
         {
@@ -38,19 +41,14 @@ public class ScoreController : MonoBehaviour
         ChangeText();
         winScreen.alpha = 0;
         loseScreen.alpha = 0;
-        ReadyFreddy = true;
-        RotationStatus = false;
+        ReadyFreddy = true; //Avoids that conditional gets called more than once
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if(RotationStatus == true)
-        {
-            RotateBoard();
-        }
-
+        //Game's Progression
 
         if(currentScore == 1 && ReadyFreddy == true)
         {
@@ -61,14 +59,12 @@ public class ScoreController : MonoBehaviour
         if (currentScore == 2 && ReadyFreddy == false)
         {
             MoveBoard();
-            RotationStatus = true;
             ReadyFreddy = true;
         }
 
         if (currentScore == 3 && ReadyFreddy == true)
         {
             MoveBoard();
-            RotationStatus = false;
             ReadyFreddy = false;
         }
 
@@ -90,37 +86,37 @@ public class ScoreController : MonoBehaviour
         }
     }
 
-    public void HitHole()
+    public void HitHole() //Increase Score
     {
         currentScore += 1;
         ChangeText();
     }
-    void ChangeText()
+
+    void ChangeText() //Update Text to Score
     {
         scoreText.text = currentScore.ToString();
     }
-    public void WinGame()
+
+    public void WinGame() //UI
     {
         winScreen.alpha = 1;
         Debug.Log("Congratulatons!");
         loseScreen.alpha = 0;
     }
-    public void LoseGame()
+
+    public void LoseGame() //UI -> Currently not happening 
     {
         loseScreen.alpha = 1;
         Debug.Log("Vergaos!");
         winScreen.alpha = 0;
     }
-    void MoveBoard()
+
+    void MoveBoard() //Distance to Board Increases
     {
 
         board.transform.position = new Vector3(board.transform.position.x, board.transform.position.y, board.transform.position.z + offset);
        
     }
-    void RotateBoard()
-    {
-        //REVIEW WITH GREG
-        //board.transform.Rotate(0f, 90f, 0f * Time.deltaTime * 0.001f);
-    }
+   
 
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent (typeof (AudioSource))]
 public class AudioPeer : MonoBehaviour
 {
+    //VARIABLES
 
     AudioSource Source;
     public static float[] samples = new float[512]; //static so that we can access from other scripts
@@ -14,11 +15,18 @@ public class AudioPeer : MonoBehaviour
     bool MusicStatus;
     public AudioClip[] clips;
 
+    //UI Sound
+    public AudioSource uiAS;
+    public AudioClip [] uiClips;
+
+
     // Start is called before the first frame update
     void Start()
     {
         Source = GetComponent<AudioSource>();
+        uiAS = GetComponent<AudioSource>();
         StartMusic();
+       
     }
 
     // Update is called once per frame
@@ -30,7 +38,7 @@ public class AudioPeer : MonoBehaviour
 
         if (!Source.isPlaying)
         {
-            ShuffleSongs();
+            ShuffleSongs(); //Goes to next song once song is finished
         }
     }
 
@@ -94,6 +102,8 @@ public class AudioPeer : MonoBehaviour
 
     public void ShuffleSongs()
     {
+        uiAS.clip = uiClips[0];
+        uiAS.Play();
         int newClip = Random.Range(0, clips.Length);
         Source.clip = clips[newClip];
         Source.Play();
@@ -101,16 +111,17 @@ public class AudioPeer : MonoBehaviour
 
     public void Music()
     {
+        
         if (MusicStatus == true)
         {
+            uiAS.clip = uiClips[0];
+            uiAS.Play();
             Source.Pause();
+            Debug.Log("Hasta Aqui");
             MusicStatus = false;
+            
         }
-        if (MusicStatus == false)
-        {
-            Source.Play();
-            MusicStatus = true;
-        }
+    
 
     }
     void StartMusic()
